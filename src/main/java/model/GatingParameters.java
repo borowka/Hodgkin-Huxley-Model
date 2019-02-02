@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Parameters {
+public class GatingParameters {
 
     private List<Double> timeValues;
     private List<Double> mValues;
@@ -11,7 +11,7 @@ public class Parameters {
     private List<Double> hValues;
     private List<Double> uValues;
 
-    public Parameters() {
+    public GatingParameters() {
         this.timeValues = new ArrayList<>();
         this.mValues = new ArrayList<>();
         this.nValues = new ArrayList<>();

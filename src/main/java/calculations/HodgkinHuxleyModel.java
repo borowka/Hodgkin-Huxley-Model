@@ -1,6 +1,6 @@
 package calculations;
 
-import model.Parameters;
+import model.GatingParameters;
 import org.apache.commons.math3.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math3.ode.FirstOrderIntegrator;
 import org.apache.commons.math3.ode.nonstiff.ClassicalRungeKuttaIntegrator;
@@ -14,16 +14,22 @@ public class HodgkinHuxleyModel {
     private static final double ALPHA_H = 0.07;
     private static final double BETA_H = 1 / (Math.exp(3) + 1);
 
-    private Parameters parameters;
+    private GatingParameters gatingParameters;
+    private double step;
+    private double time;
+    private double iMax;
 
-    public HodgkinHuxleyModel() {
-        this.parameters = new Parameters();
+    public HodgkinHuxleyModel(double step, double time, double iMax) {
+        this.gatingParameters = new GatingParameters();
+        this.step = step;
+        this.time = time;
+        this.iMax = iMax;
     }
 
     public void calculateHodgkinHuxleyModel() {
-        FirstOrderDifferentialEquations equations = new HodgkinHuxleyEquations(50, 100);
-        HodgkinHuxleyPath hodgkinHuxleyPath = new HodgkinHuxleyPath(parameters);
-        FirstOrderIntegrator integrator = new ClassicalRungeKuttaIntegrator(0.01);
+        FirstOrderDifferentialEquations equations = new HodgkinHuxleyEquations(iMax, time);
+        HodgkinHuxleyPath hodgkinHuxleyPath = new HodgkinHuxleyPath(gatingParameters);
+        FirstOrderIntegrator integrator = new ClassicalRungeKuttaIntegrator(step);
         integrator.addStepHandler(hodgkinHuxleyPath);
 
         double m0 = ALPHA_M / (ALPHA_M + BETA_M);
@@ -34,10 +40,10 @@ public class HodgkinHuxleyModel {
         double[] Start = {m0, n0, h0, u0};
         double[] Stop = {0, 0, 0, 0};
 
-        integrator.integrate(equations, 0, Start, 100, Stop);
+        integrator.integrate(equations, 0, Start, time, Stop);
     }
 
-    public Parameters getParameters() {
-        return parameters;
+    public GatingParameters getGatingParameters() {
+        return gatingParameters;
     }
 }
