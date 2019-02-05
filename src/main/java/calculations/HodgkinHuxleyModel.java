@@ -1,5 +1,7 @@
 package calculations;
 
+import javafx.scene.chart.ScatterChart;
+import javafx.scene.chart.XYChart;
 import model.GatingParameters;
 import org.apache.commons.math3.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math3.ode.FirstOrderIntegrator;
@@ -18,16 +20,39 @@ public class HodgkinHuxleyModel {
     private double step;
     private double time;
     private double iMax;
+    private double c;
+    private double eNa;
+    private double eK;
+    private double eL;
+    private double gNa;
+    private double gK;
+    private double gL;
 
-    public HodgkinHuxleyModel(double step, double time, double iMax) {
+
+    public HodgkinHuxleyModel(double step, double time, double iMax, double c, double eNa, double eK, double eL,
+                              double gNa, double gK, double gL) {
         this.gatingParameters = new GatingParameters();
         this.step = step;
         this.time = time;
         this.iMax = iMax;
+        this.c = c;
+        this.eNa = eNa;
+        this.eK = eK;
+        this.eL = eL;
+        this.gNa = gNa;
+        this.gK = gK;
+        this.gL = gL;
     }
 
     public void calculateHodgkinHuxleyModel() {
         FirstOrderDifferentialEquations equations = new HodgkinHuxleyEquations(iMax, time);
+        ((HodgkinHuxleyEquations) equations).setC(c);
+        ((HodgkinHuxleyEquations) equations).setE_K(eK);
+        ((HodgkinHuxleyEquations) equations).setE_L(eL);
+        ((HodgkinHuxleyEquations) equations).setE_NA(eNa);
+        ((HodgkinHuxleyEquations) equations).setG_K(gK);
+        ((HodgkinHuxleyEquations) equations).setG_L(gL);
+        ((HodgkinHuxleyEquations) equations).setG_NA(gNa);
         HodgkinHuxleyPath hodgkinHuxleyPath = new HodgkinHuxleyPath(gatingParameters);
         FirstOrderIntegrator integrator = new ClassicalRungeKuttaIntegrator(step);
         integrator.addStepHandler(hodgkinHuxleyPath);
@@ -46,4 +71,6 @@ public class HodgkinHuxleyModel {
     public GatingParameters getGatingParameters() {
         return gatingParameters;
     }
+
+
 }

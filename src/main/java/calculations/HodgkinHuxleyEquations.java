@@ -4,16 +4,19 @@ import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.MaxCountExceededException;
 import org.apache.commons.math3.ode.FirstOrderDifferentialEquations;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class HodgkinHuxleyEquations implements FirstOrderDifferentialEquations {
 
-    private static final double C = 1.0;
-    private static final double E_NA = 115.0;
-    private static final double E_K = -12.0;
-    private static final double E_L = 10.6;
-    private static final double G_NA = 120.0;
-    private static final double G_K = 36.0;
-    private static final double G_L = 0.3;
-    private static final double I_MIN = 0;
+    private double C = 1.0;
+    private double E_NA = 115.0;
+    private double E_K = -12.0;
+    private double E_L = 10.6;
+    private double G_NA = 120.0;
+    private double G_K = 36.0;
+    private double G_L = 0.3;
+    private double I_MIN = 0.0;
 
     private double iMax;
 
@@ -26,6 +29,7 @@ public class HodgkinHuxleyEquations implements FirstOrderDifferentialEquations {
     private double betaM;
     private double betaN;
     private double betaH;
+
 
 
     public HodgkinHuxleyEquations(double iMax, double time) {
@@ -58,5 +62,35 @@ public class HodgkinHuxleyEquations implements FirstOrderDifferentialEquations {
         dxdt[1] = alphaN * (1 - x[1]) - betaN * x[1];
         dxdt[2] = alphaH * (1 - x[2]) - betaH * x[2];
         dxdt[3] = (-(G_NA * Math.pow(x[0], 3) * x[2] * (x[3] - E_NA) + G_K * Math.pow(x[1], 4) * (x[3] - E_K) + G_L * (x[3] - E_L)) + I) / C;
+
     }
+
+    public void setC(double c) {
+        C = c;
+    }
+
+    public void setE_NA(double e_NA) {
+        E_NA = e_NA;
+    }
+
+    public void setE_K(double e_K) {
+        E_K = e_K;
+    }
+
+    public void setE_L(double e_L) {
+        E_L = e_L;
+    }
+
+    public void setG_NA(double g_NA) {
+        G_NA = g_NA;
+    }
+
+    public void setG_K(double g_K) {
+        G_K = g_K;
+    }
+
+    public void setG_L(double g_L) {
+        G_L = g_L;
+    }
+
 }

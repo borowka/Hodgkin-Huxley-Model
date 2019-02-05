@@ -28,7 +28,7 @@ public class HodgkinHuxleyPath implements StepHandler {
         gatingParameters.gethValues().add(x[2]);
         gatingParameters.getuValues().add(x[3]);
 
-        System.out.println("t: " + time + ", m: " + x[0] + ", n: " + x[1] + ", h: " + x[2] + ", u: " + x[3]);
+        //System.out.println("t: " + time + ", m: " + x[0] + ", n: " + x[1] + ", h: " + x[2] + ", u: " + x[3]);
     }
 
     public GatingParameters getGatingParameters() {
